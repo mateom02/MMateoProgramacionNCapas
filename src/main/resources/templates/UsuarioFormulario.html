@@ -1,38 +1,100 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{Layout}">
+      layout:decorate="~{Layout}">
     <head>
+        <style>
+            p{
+                color: var(--text-main);
+                font-size: 1.3rem;
+                text-align: center;
+            }
+
+            label{
+                color:var(--text-main);
+                font-size: 1.1rem;
+            }
+
+            .btn-link {
+                display: inline-block;
+                background-color: var(--text-secondary, 1);
+                color: #121317;
+                padding: 0.5rem 1rem;
+                border: none;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.875rem;
+            }
+
+            .btn-link:hover {
+                background-color: var(--accent-secondary);
+                color: #fff;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .contenedor-textinput {
+                background-color: var(--bg-componente);
+                border: 1px solid #2a2c30;
+                border-radius: 12px;
+                padding: 0.2rem 0.5rem;
+                color: var(--text-main);
+                font-family: 'Inter', sans-serif;
+            }
+
+            .contenedor-textinput input {
+                background: transparent;
+                border: none;
+                outline: none;
+                color: var(--text-main);
+                font-size: 0.875rem;
+            }
+
+            .contenedor-textinput select{
+                background-color: var(--bg-componente);
+                border: none;
+                outline: none;
+                color: var(--text-main);
+                font-size: 0.875rem;
+            }
+
+        </style>
 
     </head>
-    <body style='background-color: #121212' layout:fragment="body">
+    <body  layout:fragment="body">
 
         <form th:action="@{/UsuarioIndex/add}" method="POST" th:object="${usuario}" enctype="multipart/form-data">
-
-            <div class="container rounded-5 p-3" style="background-color: #1A1A1A">
-                <p class='fw-bold text-center m-0' style="color: #E5E5E5; font-size: 1.8rem">Datos personales</p>
+            <div class="container border-bottom border border-dark pb-3">
+                <p>Datos del usuario</p>
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-4">
                                 <div class="d-flex flex-column">
-                                    <label class='fw-bold' style="color: #E5E5E5; font-size: 1.2rem" >Nombre</label>
-                                    <input th:field="*{Nombre}" type="text">
+                                    <label >Nombre</label>
+                                    <div class="contenedor-textinput">
+                                        <input type="text" placeholder="Nombre" th:field="*{Nombre}" />
+                                    </div>
                                     <span class="error-msg text-danger"></span>
                                     <span class="text-danger" th:if="${#fields.hasErrors('Nombre')}" th:errors="*{Nombre}"></span>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="d-flex flex-column">
-                                    <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem"  >Apellido Paterno</label>
-                                    <input th:field="*{ApellidoPaterno}" >
+                                    <label>Apellido Paterno</label>
+                                    <div class="contenedor-textinput">
+                                        <input th:field="*{ApellidoPaterno}" >
+                                    </div>
                                     <span class="error-msg text-danger"></span>
                                     <span class="text-danger" th:if="#{fields.hasErrors('ApellidoPaterno')}" th:errors="*{ApellidoPaterno}"></span>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="d-flex flex-column">
-                                    <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" for="">Apellido Materno</label>
-                                    <input th:field="*{ApellidoMaterno}" type="text" >
+                                    <label >Apellido Materno</label>
+                                    <div class="contenedor-textinput">
+                                        <input th:field="*{ApellidoMaterno}" type="text" >
+                                    </div>
+
                                     <span class="text-danger" th:if="#{fields.hasErrors('ApellidoMaterno')}" th:errors="*{ApellidoMaterno}"></span>
                                 </div>
                             </div>
@@ -40,162 +102,200 @@
                     </div>
                     <div class="col-12">
                         <div class="row">
+                            <div class="col-4  d-flex flex-column" >
+                                <label  >Username</label>
+                                <div class="contenedor-textinput">
+                                    <input type="text"  th:field="*{UserName}"/>
+                                </div>
+
+                                <span class="text-danger" th:if="#{fields.hasErrors('UserName')}" th:errors="*{UserName}"></span>
+                            </div>
+                            <div class="col-4 d-flex flex-column" >
+                                <label >Password</label>
+                                <div class="contenedor-textinput">
+                                    <input type="text" th:field="*{Password}"/>
+                                </div>
+                                <span class="text-danger" th:if="#{fields.hasErrors('Password')}" th:errors="*{Password}"></span>
+                            </div>
                             <div class="col-4">
                                 <div class="d-flex flex-column">
-                                    <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" for="">CURP</label>
-                                    <input th:field="*{Curp}" type="text">
+                                    <label >CURP</label>
+                                    <div class="contenedor-textinput">
+                                        <input th:field="*{Curp}" type="text">
+                                    </div>
                                     <span class="text-danger" th:if="#{fields.hasErrors('Curp')}" th:errors="*{Curp}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4  d-flex flex-column" >
+                                <label>Rol</label>
+                                <div class="contenedor-textinput">
+                                    <select  id="rol" class="form-control" th:field="*{Rol.IdRol}">
+                                        <option value="0" selected >Seleccione un rol</option>
+                                        <option th:each="rol : ${roles}"
+                                                th:value="${rol.IdRol}"
+                                                th:text="${rol.Nombre}">
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="d-flex flex-column">
-                                    <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" for="">Sexo</label>
+                                    <label>Sexo</label>
                                     <div>
                                         <input  type="radio" value="F" th:field="*{Sexo}">
-                                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" for="femenino">Femenino</label>
+                                        <label >Femenino</label>
                                         <input type="radio"  name="masculino" th:field="*{Sexo}" value="M">
-                                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" for="masculino">Masculino</label>
+                                        <label >Masculino</label>
                                         <span class="text-danger" th:if="#{fields.hasErrors('Sexo')}" th:errors="*{Sexo}"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="d-flex flex-column">
-                                    <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" >Fecha Nacimiento</label>
-                                    <input type="date" th:field="*{FechaNacimiento}">
+                                    <label  >Fecha Nacimiento</label>
+                                    <div class="contenedor-textinput">
+                                        <input type="date"  th:field="*{FechaNacimiento}">
+                                    </div>
                                     <span class="text-danger" th:if="#{fields.hasErrors('FechaNacimiento')}" th:errors="*{FechaNacimiento}"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
 
-            <div class="container rounded-5 mt-2 p-3" style=" background-color: #1A1A1A">
-                <p class='fw-bold text-center m-0' style="color: #E5E5E5; font-size: 1.7rem">Datos del usuario</p>
+            <div class="container  border-bottom border border-dark pb-3" >
+                <p >Datos de contacto</p>
                 <div class="row">
                     <div class="col-4  d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" >Username</label>
-                        <input type="text"  th:field="*{UserName}"/>
-                        <span class="text-danger" th:if="#{fields.hasErrors('UserName')}" th:errors="*{UserName}"></span>
-                    </div>
-                    <div class="col-4 d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">Password</label>
-                        <input type="text" th:field="*{Password}"/>
-                        <span class="text-danger" th:if="#{fields.hasErrors('Password')}" th:errors="*{Password}"></span>
-                    </div>
-                    <div class="col-4  d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">Rol</label>
-                        <select  id="rol" class="form-control" th:field="*{Rol.IdRol}">
-                            <option value="0" selected >Seleccione un rol</option>
-                            <option th:each="rol : ${roles}"
-                                    th:value="${rol.IdRol}"
-                                    th:text="${rol.Nombre}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container rounded-5 mt-2 p-3" style=" background-color: #1A1A1A">
-                <p class='fw-bold text-center m-0' style="color: #E5E5E5; font-size: 1.7rem">Datos de contacto</p>
-                <div class="row">
-                    <div class="col-4  d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" >Email</label>
-                        <input type="text"  th:field="*{Email}"/>
+                        <label  >Email</label>
+                        <div class="contenedor-textinput">
+                            <input type="text"  th:field="*{Email}"/>
+                        </div>
                         <span class="text-danger" th:if="#{fields.hasErrors('Password')}" th:errors="*{Password}"></span>
 
                         <span class="text-danger" th:if="#{fields.hasErrors('Email')}" th:errors="*{Email}"></span>
                     </div>
                     <div class="col-4 d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem"  >Telefono</label>
-                        <input type="text" th:field="*{Telefono}"/>
+                        <label  >Telefono</label>
+                        <div class="contenedor-textinput">
+                            <input type="text" th:field="*{Telefono}"/>
+                        </div>
+
                         <span class="text-danger" th:if="#{fields.hasErrors('Telefono')}" th:errors="*{Telefono}"></span>
                     </div>
                     <div class="col-4  d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" >Celular</label>
-                        <input type="text"  th:field="*{Celular}"/>
+                        <label >Celular</label>
+                        <div class="contenedor-textinput">
+                            <input type="text"  th:field="*{Celular}"/>
+                        </div>
                         <span class="text-danger" th:if="#{fields.hasErrors('Celular')}" th:errors="*{Celular}"></span>
                     </div>
                 </div>
             </div>
 
 
-            <div class="container rounded-5 mt-2 p-3" style="background-color: #1A1A1A">
-                <p class='fw-bold text-center m-0' style="color: #E5E5E5; font-size: 1.7rem">Dirección</p>
+            <div class="container border-bottom border border-dark pb-3">
+                <p >Dirección</p>
                 <div class="row">
                     <div class="col">
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">Pais</label>
-                        <select class="form-control" th:field="*{Direcciones[0].Colonia.Municipio.Estado.Pais.IdPais}" required="required" 
-                                id="ddlpais">
-                            <option value=0 selected="selected"  >
-                                Seleccione un pais
-                            </option>
-                            <option th:each="pais : ${paises}" 
-                                    th:value="${pais.IdPais}" 
-                                    th:text="${pais.Nombre}" >
-                            </option>
-                        </select>
+                        <label >Pais</label>
+                        <div class="contenedor-textinput">
+                            <select class="form-control" th:field="*{Direcciones[0].Colonia.Municipio.Estado.Pais.IdPais}" required="required" 
+                                    id="ddlpais">
+                                <option value=0 selected="selected"  >
+                                    Seleccione un pais
+                                </option>
+                                <option th:each="pais : ${paises}" 
+                                        th:value="${pais.IdPais}" 
+                                        th:text="${pais.Nombre}" >
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col">
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">Estado</label>
-                        <select class="form-control"  
-                                id="ddlestado" th:field="*{Direcciones[0].Colonia.Municipio.Estado.IdEstado}">
-                            <option value="0" > 
-                                Seleccione un Estado</option>
-                            <option th:each="estado: ${estados}" th:value="${estado.IdEstado}" th:text="${estado.Nombre}" ></option>
-                        </select>
+                        <label>Estado</label>
+                        <div class="contenedor-textinput">
+                            <select class="form-control"  
+                                    id="ddlestado" th:field="*{Direcciones[0].Colonia.Municipio.Estado.IdEstado}">
+                                <option value="0" > 
+                                    Seleccione un Estado</option>
+                                <option th:each="estado: ${estados}" th:value="${estado.IdEstado}" th:text="${estado.Nombre}" ></option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col">
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">Municipio</label>
-                        <select class="form-control"  
-                                id="ddlmunicipio"   th:field="*{Direcciones[0].Colonia.Municipio.IdMunicipio}">
-                            <option value="0"> 
-                                Seleccione un Municipio</option>
-                            <option th:each="municipio: ${municipios}" th:value="${municipio.IdMunicipio}" th:text="${municipio.Nombre}" ></option>
-                        </select>
+                        <label >Municipio</label>
+                        <div class="contenedor-textinput">
+                            <select class="form-control"  
+                                    id="ddlmunicipio"   th:field="*{Direcciones[0].Colonia.Municipio.IdMunicipio}">
+                                <option value="0"> 
+                                    Seleccione un Municipio</option>
+                                <option th:each="municipio: ${municipios}" th:value="${municipio.IdMunicipio}" th:text="${municipio.Nombre}" ></option>
+                            </select>
+                        </div>
                     </div>
                     <div class="col">
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">Colonia</label>
-                        <select th:field="*{Direcciones[0].Colonia.IdColonia}" class="form-control"  
-                                id="ddlcolonia" required="required">
-                            <option value="0"> 
-                                Seleccione una colonia</option>
-                        </select>
+                        <label>Colonia</label>
+                        <div class="contenedor-textinput">
+                            <select th:field="*{Direcciones[0].Colonia.IdColonia}" class="form-control"  
+                                    id="ddlcolonia" required="required">
+                                <option value="0"> 
+                                    Seleccione una colonia</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row" >
                     <div class="col  d-flex flex-column"  >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" >Calle</label>
-                        <input type="text"  th:field="*{Direcciones[0].Calle}"/>
+                        <label >Calle</label>
+                        <div class="contenedor-textinput">
+                            <input type="text"  th:field="*{Direcciones[0].Calle}"/>
+                        </div>
                         <span class="text-danger" th:if="#{fields.hasErrors('Direcciones[0].Calle')}" th:errors="*{Direcciones[0].Calle}"></span>
                     </div>
                     <div class="col  d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem" >N. Interior</label>
-                        <input type="text"  th:field="*{Direcciones[0].NumeroInterior}"/>
+                        <label >N. Interior</label>
+                        <div class="contenedor-textinput">
+                            <input type="text"  th:field="*{Direcciones[0].NumeroInterior}"/>
+                        </div>
                     </div> 
                     <div class="col  d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">N. Exterior</label>
-                        <input type="text"  th:field="*{Direcciones[0].NumeroExterior}"/>
+                        <label >N. Exterior</label>
+                        <div class="contenedor-textinput">
+                            <input type="text"  th:field="*{Direcciones[0].NumeroExterior}"/>
+                        </div>
                         <span class="text-danger" th:if="#{fields.hasErrors('Direcciones[0].NumeroExterior')}" th:errors="*{Direcciones[0].NumeroExterior}"></span>
                     </div>
                     <div class="col  d-flex flex-column" >
-                        <label class='fw-bold' style="color: #E5E5E5; font-size: 1.1rem">Código postal</label>
-                        <input id="ddlCodigoPostal" type="text" />
+                        <label >Código postal</label>
+                        <div class="contenedor-textinput">
+                            <input id="ddlCodigoPostal" type="text" />
+                        </div>
                     </div>
                 </div>
             </div>
-            <input type="file" class="form-control mb-2" name="imagenFile" id="imagenFile" accept="image/*">
 
+            <div class="container border-bottom border border-dark pb-3">
+                <div class="contenedor-textinput">
+                    <input type="file" class="form-control mb-2" name="imagenFile" id="imagenFile" accept="image/*">
+                </div>
 
+                <input class="btn-link"  type="submit" value="Submit" />
+                <a class="btn-link"
+                   th:href="@{http://localhost:8080/UsuarioIndex}"> Regresar</a>
 
-            <input  type="submit" value="Submit" />
-            <a class='fw-bold bg-primary text-muted'  style='text-decoration: none; color:' 
-               th:href="@{http://localhost:8080/UsuarioIndex}">Regresar
-                <i style="font-size: 20px; color:#E5E5E5" class="bi bi-arrow-left-square-fill"></i>
-
+            </div>
 
         </form>
+
         <script>
             $('#ddlpais').change(function () {
 
@@ -384,6 +484,7 @@
             }
 
         </style>
+
     </body>
 
 </html>
