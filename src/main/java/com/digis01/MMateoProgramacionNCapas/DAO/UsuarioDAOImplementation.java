@@ -327,58 +327,6 @@ public class UsuarioDAOImplementation implements IUsuarioDAO {
 
         });
     }
-
-//    @Override
-//    @Transactional
-//    public Result SaveAll(List<Usuario> usuarios) {
-//
-//        Result result = new Result();
-//
-//        for (Usuario usuario : usuarios) {
-//
-//            result = jdbcTemplate.execute("{CALL UsuarioAdd(?,?,?,?,?,?,?,?,?,?,?,?)}", (CallableStatementCallback<Result>) callableStatement -> {
-//
-//                Result resultSP = new Result();
-//
-//                try {
-//                    callableStatement.setString("pUsername", usuario.getUserName());
-//                    callableStatement.setString("pNombre", usuario.getNombre());
-//                    callableStatement.setString("pApellidoPaterno", usuario.getApellidoPaterno());
-//                    callableStatement.setString("pApellidoMaterno", usuario.getApellidoMaterno());
-//                    callableStatement.setString("pEmail", usuario.getEmail());
-//                    callableStatement.setString("pPassword", usuario.getPassword());
-//                    callableStatement.setDate("pFechaNacimiento", new java.sql.Date(usuario.getFechaNacimiento().getTime()));
-//                    callableStatement.setString("pSexo", String.valueOf(usuario.getSexo()));
-//                    callableStatement.setString("pTelefono", usuario.getTelefono());
-//                    callableStatement.setString("pCelular", usuario.getCelular());
-//                    callableStatement.setString("pCurp", usuario.getCurp());
-//                    callableStatement.setInt("pIdRol", usuario.Rol.getIdRol());
-//
-//                    int rowsAffected = callableStatement.executeUpdate();
-//                    callableStatement.addBatch();
-//                    
-//                    if (rowsAffected > 0) {
-//                        resultSP.correct = true;
-//
-//                    } else {
-//                        resultSP.correct = false;
-//                        resultSP.errorMessage = "No se pudo insertar el Usuario";
-//                    }
-//
-//                } catch (Exception ex) {
-//                    resultSP.correct = false;
-//                    resultSP.errorMessage = ex.getLocalizedMessage();
-//                    resultSP.ex = ex;
-//                }
-//
-//                return resultSP;
-//
-//            });
-//
-//        }
-//        return result;
-//    }
-//    
     
     @Override
     @Transactional

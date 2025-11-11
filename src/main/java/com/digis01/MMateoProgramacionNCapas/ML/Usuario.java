@@ -58,7 +58,7 @@ public class Usuario {
     @Pattern(regexp = "^[A-Z+\\d+a-z]{8,50}$", message = "La contraseña debe tener al menos una mayuscula, un numero y al menos 8 de longitud")
     private String Password;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "El campo no puede estar vacio")
     @Past(message = "Debe ser una fecha pasada")
     private Date FechaNacimiento;

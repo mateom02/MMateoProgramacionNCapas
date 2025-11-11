@@ -5,6 +5,13 @@
 
         <style>
 
+            .container-info{
+                background-color: #15171a;
+                width: 100%;
+                text-align: center;
+                padding: 0;
+            }
+
             .container-info p{
                 color: var(--text-main);
                 font-size: 1.1rem;
@@ -13,9 +20,10 @@
             }
 
             .perfil-img{
-                max-width: 90%;
-                max-height: 90%;
-                object-fit: contain;
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                object-fit: cover;
             }
 
             .btn-link {
@@ -43,14 +51,20 @@
                 margin: .125rem;
             }
 
+            h4{
+                color: #7655fd;
+                text-align: center;
+            }
+
         </style>
 
     </head>
     <body layout:fragment="body">
-        <div class="container mt-3 border border-dark rounded-5">
-            <div class="row border border-dark rounded-5">
-                <div class="col-3 border border-dark rounded-5">
-                    <div class="d-flex flex-column align-items-center h-50">
+        <div class="container mt-3 border border-dark ">
+            <div class="row border border-dark ">
+                <div class="col-3 border border-dark p-0">
+
+                    <div class="d-flex flex-column align-items-center">
                         <img class="perfil-img" th:if="${usuario.Imagen == null}" src="https://img.freepik.com/psd-gratis/ilustracion-3d-avatar-o-perfil-humano_23-2150671122.jpg" alt="Perfil de usuario"/>
                         <img class="perfil-img" th:if="${usuario.Imagen != null}" src="data:image/jpeg;base64," th:attrappend="src=${usuario.Imagen}"  alt="Perfil de usuario">
                         <div>
@@ -65,48 +79,43 @@
                         <p th:text='| ${usuario.Nombre} ${usuario.ApellidoPaterno} ${usuario.ApellidoMaterno}|'></p>
                         <p th:text='${usuario.UserName}' class='fw-bold' ></p>
                         <p th:text="${usuario.Rol.Nombre != null} ? ${usuario.Rol.Nombre}: 'No hay rol asignado'"></p>
-                        <button class="btn-link" id="btnEditarInformacion">Editar información</button>
+                        <button class="btn-link m-0" id="btnEditarInformacion">Editar información</button>
                     </div>
                 </div>
 
                 <div class="col-9">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class='container rounded-5'>
-                                <p >Datos personales</p>
-                                <div class='d-flex justify-content-evenly'>
-                                    <div>
-                                        <p >Fecha de nacimiento</p>
-                                        <p th:text='${usuario.FechaNacimiento}'>29 de Septiembre del 2002</p>
-                                    </div>
-                                    <div>
-                                        <p >Sexo</p>
-                                        <p  th:text="${usuario.Sexo=='F'} ? 'Femenino': 'Masculino'" ></p>
-                                    </div>
-                                    <div>
-                                        <p >CURP</p>
-                                        <p th:text="${usuario.Curp}"></p>
-                                    </div>
+                    <div class="d-flex flex-column">
+                        <div >
+                            <h4>Datos personales</h4>
+                            <div class='d-flex justify-content-evenly'>
+                                <div>
+                                    <p>Fecha de nacimiento</p>
+                                    <p th:text='${usuario.FechaNacimiento}'>29 de Septiembre del 2002</p>
                                 </div>
-
+                                <div>
+                                    <p >Sexo</p>
+                                    <p  th:text="${usuario.Sexo=='F'} ? 'Femenino': 'Masculino'" ></p>
+                                </div>
+                                <div>
+                                    <p >CURP</p>
+                                    <p th:text="${usuario.Curp}"></p>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 mt-1">
-                            <div class='container rounded-5' >
-                                <p >Datos de contacto</p>
-                                <div class='d-flex justify-content-evenly'>
-                                    <div>
-                                        <p>Correo Electronico</p>
-                                        <p th:text="${usuario.Email}"></p>
-                                    </div>
-                                    <div>
-                                        <p >Telefomo</p>
-                                        <p th:text="${usuario.Telefono}"></p>
-                                    </div>
-                                    <div>
-                                        <p >Celular</p>
-                                        <p th:text="${usuario.Celular}"></p>
-                                    </div>
+                        <div class='border-dark border-top border-2 mt-5' >
+                            <h4>Datos de contacto</h4>
+                            <div class='d-flex justify-content-evenly'>
+                                <div>
+                                    <p>Correo Electronico</p>
+                                    <p th:text="${usuario.Email}"></p>
+                                </div>
+                                <div>
+                                    <p >Telefomo</p>
+                                    <p th:text="${usuario.Telefono}"></p>
+                                </div>
+                                <div>
+                                    <p >Celular</p>
+                                    <p th:text="${usuario.Celular}"></p>
                                 </div>
                             </div>
                         </div>
@@ -180,20 +189,67 @@
                 </div>
             </div>  
 
-            <div class="container rounded-5 w-75">
-
+            <!-- Direcciones -->
+            <div class="container">
                 <div class="row">
-                    <p  class='col-6' >Direcciones</p>
-                    <div class=" col-6 text-center  ">
-                        <a class="m-0  btn btn-primary" id="btnAgregarDireccion">Agregar dirección</a>
+                    <div class=" col-12 mt-2">
+                        <h4>Direcciones</h4>
+                        <a class="m-0  btn-link" id="btnAgregarDireccion">Agregar dirección</a>
+                        <table class="table table-dark mt-2 ">
+                            <thead>
+                                <tr>
+                                    <th>Direccion</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="direccion: ${usuario.Direcciones}">
+                                    <td th:text="|${direccion.Calle}  ${direccion.NumeroExterior}|"></td>
+                                    <td>
+                                        <button class="btn btn-warning" th:onclick="|FormDireccionEditable(${direccion.IdDireccion})|">Editar</button>
+                                        <button id="btnBorrarDireccion" class='btn btn-danger' th:onclick="|confimarEliminarDireccion(${direccion.IdDireccion}, ${usuario.IdUsuario})|">Borrar</button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
+                <!-- Modal agregarDirecciones -->
                 <div class="modal fade" id="modalAddDireccion">
+
                     <div class="modal-dialog">
                         <div class="modal-content">
 
                             <form method="POST" th:action="@{/UsuarioIndex/addDireccion}" id="formAddDireccion" th:object="${Direccion}">
+                                <select
+                                    id="ddlpais">
+                                    <option value=0 selected="selected"  >
+                                        Seleccione un pais
+                                    </option>
+                                    <option th:each="pais : ${paises}" 
+                                            th:value="${pais.IdPais}" 
+                                            th:text="${pais.Nombre}" >
+                                    </option>
+                                </select>
+                                <select class="form-control"  
+                                        id="ddlestado" >
+                                    <option value="0" > 
+                                        Seleccione un Estado</option>
+                                    <option th:each="estado: ${estados}" th:value="${estado.IdEstado}" th:text="${estado.Nombre}" ></option>
+                                </select>
+                                <select class="form-control"  
+                                        id="ddlmunicipio">
+                                    <option value="0"> 
+                                        Seleccione un Municipio</option>
+                                    <option th:each="municipio: ${municipios}" th:value="${municipio.IdMunicipio}" th:text="${municipio.Nombre}" ></option>
+                                </select>
+                                <select class="form-control"  
+                                        id="ddlcolonia" required="required">
+                                    <option value="0"> 
+                                        Seleccione una colonia</option>
+                                </select>
                                 <input type="hidden"  th:value="${usuario.IdUsuario}" name="IdUsuario">
                                 <input type="text" th:field="*{Calle}" placeholder="Calle">
                                 <input type="text" th:field="*{NumeroInterior}" placeholder="NumeroInterior">
@@ -202,33 +258,15 @@
                             </form>
 
                             <div class="modal-footer">
-                                <button type="button" onclick="enviarDireccion()" class="btn btn-primary">Agregar</button>
+                                <button type="button" onclick="enviarDireccion()" class="btn-link">Agregar</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div> 
 
-                <span class="fw-normal mb-1 ms-1" style="list-style-type: none; color: #E5E5E5; font-size: 1.1rem;" th:if="${#lists.isEmpty(usuario.Direcciones)}">No hay direcciones</span>
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Direccion</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="direccion: ${usuario.Direcciones}">
-                            <td th:text="|${direccion.Calle}  ${direccion.NumeroExterior}|"></td>
-                            <td>
-                                <button class="btn btn-warning" th:onclick="|FormDireccionEditable(${direccion.IdDireccion})|">Editar</button>
-                                <button id="btnBorrarDireccion" class='btn btn-danger' th:onclick="|confimarEliminarDireccion(${direccion.IdDireccion}, ${usuario.IdUsuario})|">Borrar</button>
-                            </td>
 
-                        </tr>
-                    </tbody>
-                </table>
 
 
 
@@ -264,6 +302,66 @@
             $("#btnEditarImagen").click(function (){
             console.log("click");
             $("#modalActualizarImagen").modal("show");
+            });
+            $('#ddlpais').change(function () {
+
+            console.log($(this).val());
+            $.ajax({
+            url: "/UsuarioIndex/Estado/" + $(this).val(),
+                    type: "GET",
+                    datatype: "json",
+                    success: function (data, textStatus, jqXHR) {
+                    $("#ddlestado").empty();
+                    $("#ddlmunicipio").empty();
+                    $("#ddlcolonia").empty();
+                    $("#ddlestado").append("<option value=0 selected>Selecciona un estado</option>");
+                    $("#ddlmunicipio").append("<option value=0 selected>Selecciona un municipio</option>");
+                    $("#ddlcolonia").append("<option value=0 selected>Selecciona una colonia</option>");
+                    console.log(data.objects);
+                    $.each(data.objects, function (i, estado) {
+                    $("#ddlestado").append("<option value= " + estado.idEstado + " > " + estado.nombre + "</option>");
+                    });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    alert("No hay datos que mostrar");
+                    }
+            });
+            });
+            $('#ddlestado').change(function () {
+            $.ajax({
+            url: "/UsuarioIndex/Municipio/" + $('#ddlestado').val(),
+                    type: "GET",
+                    datatype: "json",
+                    success: function (data, textStatus, jqXHR) {
+                    $("#ddlmunicipio").empty();
+                    $("#ddlcolonia").empty();
+                    $("#ddlmunicipio").append("<option value=0 selected>Selecciona un municipio</option>");
+                    $("#ddlcolonia").append("<option value=0 selected>Selecciona una colonia</option>");
+                    $.each(data.objects, function (i, municipio) {
+                    $("#ddlmunicipio").append("<option value= " + municipio.idMunicipio + " > " + municipio.nombre + "</option>");
+                    });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    alert("No hay datos que mostrar");
+                    }
+            });
+            $('#ddlmunicipio').change(function () {
+            $.ajax({
+            url: "/UsuarioIndex/Colonia/" + $(this).val(),
+                    type: "GET",
+                    datatype: "json",
+                    success: function (data, textStatus, jqXHR) {
+                    $("#ddlcolonia").empty();
+                    $("#ddlcolonia").append("<option value=0 selected>Selecciona una colonia</option>");
+                    $.each(data.objects, function (i, colonia) {
+                    $("#ddlcolonia").append("<option value= " + colonia.idColonia + " > " + colonia.nombre + "</option>");
+                    });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    alert("No hay datos que mostrar");
+                    }
+            });
+            });
             });
             function FormDireccionEditable(idDireccion) {
             $("#modalEditDireccion").modal("show");

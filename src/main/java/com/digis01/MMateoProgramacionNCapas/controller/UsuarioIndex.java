@@ -7,6 +7,7 @@ import com.digis01.MMateoProgramacionNCapas.DAO.MunicipioDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.PaisDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.RolDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioDAOImplementation;
+import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.ML.Direccion;
 import com.digis01.MMateoProgramacionNCapas.ML.ErrorCarga;
 import com.digis01.MMateoProgramacionNCapas.ML.Estado;
@@ -82,6 +83,9 @@ public class UsuarioIndex {
 
     @Autowired
     private DireccionDAOImplementacion direccionDAOImplementacion;
+    
+    @Autowired
+    private UsuarioJPADAOImplementacion usuarioJPADAOImplementacion;
 
     private final List<Usuario> usuariosCargaMasiva = new ArrayList<>();
 
@@ -89,19 +93,26 @@ public class UsuarioIndex {
     public String UsuarioIndex(Model model) {
         Result result = usuarioDAOImplementation.GetAll();
         Result roles = rolDAOImplementacion.getAll();
+        Result usuariosJPA = usuarioJPADAOImplementacion.GetAll();
+        
         Usuario usuario = new Usuario();
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", roles.objects);
-        model.addAttribute("usuarios", result.objects);
+        model.addAttribute("usuarios", usuariosJPA.objects);
+        
         return "UsuarioIndex";
     }
 
     @GetMapping("usuario-detalles/{IdUsuario}")
     public String UsuarioDetalles(@PathVariable("IdUsuario") int idUsuario, Model model) {
         Result result = usuarioDAOImplementation.GetUsuarioDireccionesById(idUsuario);
+        Usuario usuario = (Usuario) result.object;
         model.addAttribute("usuario", result.object);
         model.addAttribute("Direccion", new Direccion());
         model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
+        model.addAttribute("paises", paisDAOImplementacion.GetAll().objects);
+
+
         return "UsuarioDetalles";
     }
 
@@ -311,7 +322,6 @@ public class UsuarioIndex {
 //        direccion.setNumeroExterior("158");
 //        direccion.setNumeroInterior("185");
 //        usuario.Direcciones.add(direccion);
-
         model.addAttribute("usuario", usuario);
 
         return "UsuarioFormulario";
