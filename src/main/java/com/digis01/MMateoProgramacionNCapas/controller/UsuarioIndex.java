@@ -93,12 +93,12 @@ public class UsuarioIndex {
     public String UsuarioIndex(Model model) {
         Result result = usuarioDAOImplementation.GetAll();
         Result roles = rolDAOImplementacion.getAll();
-        Result usuariosJPA = usuarioJPADAOImplementacion.GetAll();
+        Result resultJPA = usuarioJPADAOImplementacion.GetAll();
         
         Usuario usuario = new Usuario();
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", roles.objects);
-        model.addAttribute("usuarios", usuariosJPA.objects);
+        model.addAttribute("usuarios", resultJPA.objects);
         
         return "UsuarioIndex";
     }

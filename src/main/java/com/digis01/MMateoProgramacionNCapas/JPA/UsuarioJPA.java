@@ -1,5 +1,6 @@
 package com.digis01.MMateoProgramacionNCapas.JPA;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,8 +68,8 @@ public class UsuarioJPA {
     @JoinColumn(name = "idrol")
     public RolJPA Rol;
 
-    @OneToMany(mappedBy = "Usuario")
-    public List<DireccionJPA> direccion;
+    @OneToMany(mappedBy = "Usuario",  cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<DireccionJPA> Direcciones = new ArrayList<>();
 
     public int getIdUsuario() {
         return IdUsuario;
@@ -165,14 +167,12 @@ public class UsuarioJPA {
         this.Rol = Rol;
     }
 
-    public List<DireccionJPA> getDireccion() {
-        return direccion;
+    public List<DireccionJPA> getDirecciones() {
+        return Direcciones;
     }
 
-    public void setDireccion(List<DireccionJPA> direccion) {
-        this.direccion = direccion;
+    public void setDirecciones(List<DireccionJPA> Direcciones) {
+        this.Direcciones = Direcciones;
     }
-
-   
 
 }

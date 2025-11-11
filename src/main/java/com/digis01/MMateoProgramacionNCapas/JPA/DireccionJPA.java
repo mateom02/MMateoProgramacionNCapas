@@ -28,6 +28,10 @@ public class DireccionJPA {
     private String NumeroExterior;
 
     @ManyToOne
+    @JoinColumn(name="idcolonia")
+    public ColoniaJPA Colonia;
+    
+    @ManyToOne
     @JoinColumn(name = "idusuario")
     public UsuarioJPA Usuario;
 
@@ -69,6 +73,14 @@ public class DireccionJPA {
 
     public void setUsuario(UsuarioJPA Usuario) {
         this.Usuario = Usuario;
+    }
+
+    public ColoniaJPA getColonia() {
+        return Colonia;
+    }
+
+    public void setColonia(ColoniaJPA Colonia) {
+        this.Colonia = Colonia;
     }
 
   

@@ -165,7 +165,9 @@
                                         <i class="bi bi-geo"></i>
                                         <li class="fw-normal mb-1 ms-1" style="list-style-type: none;" 
                                             th:text="${direccion.Calle != null} ? |${direccion.Calle}  ${direccion.NumeroExterior}| : 'No hay direcciones asignadas'"></li>
+                                        
                                     </ul>
+                                    <span th:if="${#lists.isEmpty(usuario.Direcciones)}">No hay direcciones asignadas</span>
                                 </td>
                                 <td th:text="${usuario.Rol.Nombre!=null} ? ${usuario.Rol.Nombre} : 'Sin rol asignado'"></td>
                                 <td>
