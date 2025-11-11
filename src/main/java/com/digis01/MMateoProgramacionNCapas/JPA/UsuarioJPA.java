@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -64,11 +65,16 @@ public class UsuarioJPA {
     @Column(name = "curp")
     private String Curp;
 
+    
+    @Column(name = "imagen")
+    @Lob
+    private String Imagen;
+
     @ManyToOne
     @JoinColumn(name = "idrol")
     public RolJPA Rol;
 
-    @OneToMany(mappedBy = "Usuario",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "Usuario", cascade = CascadeType.PERSIST, orphanRemoval = true)
     public List<DireccionJPA> Direcciones = new ArrayList<>();
 
     public int getIdUsuario() {
@@ -159,6 +165,15 @@ public class UsuarioJPA {
         this.Curp = Curp;
     }
 
+    public String getImagen() {
+        return Imagen;
+    }
+
+    public void setImagen(String Imagen) {
+        this.Imagen = Imagen;
+    }
+
+    
     public RolJPA getRol() {
         return Rol;
     }

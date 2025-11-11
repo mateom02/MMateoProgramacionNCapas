@@ -2,6 +2,7 @@ package com.digis01.MMateoProgramacionNCapas.JPA;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +32,7 @@ public class DireccionJPA {
     @JoinColumn(name="idcolonia")
     public ColoniaJPA Colonia;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idusuario")
     public UsuarioJPA Usuario;
 

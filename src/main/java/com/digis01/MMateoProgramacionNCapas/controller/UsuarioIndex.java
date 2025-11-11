@@ -8,6 +8,7 @@ import com.digis01.MMateoProgramacionNCapas.DAO.PaisDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.RolDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioDAOImplementation;
 import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioJPADAOImplementacion;
+import com.digis01.MMateoProgramacionNCapas.ML.Colonia;
 import com.digis01.MMateoProgramacionNCapas.ML.Direccion;
 import com.digis01.MMateoProgramacionNCapas.ML.ErrorCarga;
 import com.digis01.MMateoProgramacionNCapas.ML.Estado;
@@ -305,23 +306,25 @@ public class UsuarioIndex {
         model.addAttribute("paises", paisDAOImplementacion.GetAll().objects);
         Usuario usuario = new Usuario();
 
-//        usuario.setNombre("Ana");
-//        usuario.setApellidoPaterno("Mateo");
-//        usuario.setApellidoMaterno("Martinez");
-//        usuario.setUserName("Miguel");
-//        usuario.setCurp("012345678912345678");
-//        usuario.setSexo("F");
-//        usuario.setFechaNacimiento(new Date());
-//        usuario.setEmail("xxxx@xx.xx");
-//        usuario.setTelefono("2261164021");
-//        usuario.setCelular("2261164021");
-//        usuario.setPassword("1Ahfasaskfas");
-//        usuario.Direcciones = new ArrayList<>();
-//        Direccion direccion = new Direccion();
-//        direccion.setCalle("Av DIaz Miron");
-//        direccion.setNumeroExterior("158");
-//        direccion.setNumeroInterior("185");
-//        usuario.Direcciones.add(direccion);
+        usuario.setNombre("JCole");
+        usuario.setApellidoPaterno("Mateo");
+        usuario.setApellidoMaterno("Martinez");
+        usuario.setUserName("Miguel");
+        usuario.setCurp("012345678912345678");
+        usuario.setSexo("F");
+        usuario.setFechaNacimiento(new Date());
+        usuario.setEmail("jcolexxxx@xx.xx");
+        usuario.setTelefono("2261164021");
+        usuario.setCelular("2261164021");
+        usuario.setPassword("1Ahfasaskfas");
+        usuario.Direcciones = new ArrayList<>();
+        Direccion direccion = new Direccion();
+        direccion.setCalle("Av DIaz Miron");
+        direccion.setNumeroExterior("158");
+        direccion.setNumeroInterior("185");
+        direccion.Colonia = new Colonia();
+        direccion.Colonia.setIdColonia(1000);
+        usuario.Direcciones.add(direccion);
         model.addAttribute("usuario", usuario);
 
         return "UsuarioFormulario";
@@ -407,7 +410,8 @@ public class UsuarioIndex {
             }
 
         }
-        Result result = usuarioDAOImplementation.Add(usuario);
+        //Result result = usuarioDAOImplementation.Add(usuario);
+        Result result = usuarioJPADAOImplementacion.Add(usuario);
         redirectAttributes.addFlashAttribute("successMessage", "El usuario " + usuario.getUserName() + " se creo con exito.");
         return "redirect:/UsuarioIndex";
     }
