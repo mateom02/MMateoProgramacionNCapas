@@ -19,14 +19,6 @@ import java.util.List;
 @Table(name = "USUARIO")
 public class UsuarioJPA {
 
-    public String getUserName() {
-        return UserName;
-    }
-
-    public void setUserName(String UserName) {
-        this.UserName = UserName;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idusuario")
@@ -65,7 +57,6 @@ public class UsuarioJPA {
     @Column(name = "curp")
     private String Curp;
 
-    
     @Column(name = "imagen")
     @Lob
     private String Imagen;
@@ -74,8 +65,16 @@ public class UsuarioJPA {
     @JoinColumn(name = "idrol")
     public RolJPA Rol;
 
-    @OneToMany(mappedBy = "Usuario", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "Usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<DireccionJPA> Direcciones = new ArrayList<>();
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
+    }
 
     public int getIdUsuario() {
         return IdUsuario;
@@ -173,7 +172,6 @@ public class UsuarioJPA {
         this.Imagen = Imagen;
     }
 
-    
     public RolJPA getRol() {
         return Rol;
     }

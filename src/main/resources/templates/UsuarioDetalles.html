@@ -471,6 +471,16 @@
             }
             );
         </script>
+        
+        <script th:if="${msgImagenEditada}" th:inline="javascript">
+            Swal.fire({
+            title: [[${msgImagenEditada}
+            ]],
+                    icon: "success",
+                    draggable: true
+            }
+            );
+        </script>
 
     </body>
 </html>

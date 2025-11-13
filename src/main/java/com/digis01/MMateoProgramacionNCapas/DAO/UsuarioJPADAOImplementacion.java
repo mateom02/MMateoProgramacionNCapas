@@ -2,11 +2,14 @@ package com.digis01.MMateoProgramacionNCapas.DAO;
 
 import com.digis01.MMateoProgramacionNCapas.JPA.DireccionJPA;
 import com.digis01.MMateoProgramacionNCapas.JPA.UsuarioJPA;
+import com.digis01.MMateoProgramacionNCapas.ML.Direccion;
 import com.digis01.MMateoProgramacionNCapas.ML.Result;
 import com.digis01.MMateoProgramacionNCapas.ML.Rol;
 import com.digis01.MMateoProgramacionNCapas.ML.Usuario;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +56,26 @@ public class UsuarioJPADAOImplementacion implements IUsuarioJPA {
     }
 
     @Override
+    public Result GetById(int idUsuario) {
+        Result result = new Result();
+
+        try {
+
+            UsuarioJPA usuariojpa = entityManager.find(UsuarioJPA.class, idUsuario);
+            Usuario usuario = modelMapper.map(usuariojpa, Usuario.class);
+
+            result.correct = true;
+            result.object = usuario;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+
+        return result;
+    }
+
+    @Override
     @Transactional
     public Result Add(Usuario usuario) {
         Result result = new Result();
@@ -71,6 +94,134 @@ public class UsuarioJPADAOImplementacion implements IUsuarioJPA {
             result.ex = ex;
         }
 
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public Result Update(Usuario usuario) {
+
+        Result result = new Result();
+
+        try {
+
+            UsuarioJPA usuarioExistente = entityManager.find(UsuarioJPA.class, usuario.getIdUsuario());
+
+            //SettearValores
+            usuario.setPassword(usuarioExistente.getPassword());
+            usuario.setImagen(usuarioExistente.getImagen());
+            if (usuario.Direcciones.size() > 0) {
+                for (DireccionJPA direccionjpa : usuarioExistente.Direcciones) {
+                    Direccion direccion = modelMapper.map(direccionjpa, Direccion.class);
+                    usuario.Direcciones.add(direccion);
+                }
+            }
+
+            UsuarioJPA usuarioSave = modelMapper.map(usuario, UsuarioJPA.class);
+            entityManager.merge(usuarioSave);
+
+            result.correct = true;
+
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+
+        return result;
+
+    }
+
+    @Override
+    @Transactional
+    public Result UpdateImagen(int idUsuario, String imagen) {
+        Result result = new Result();
+
+        try {
+
+            UsuarioJPA usuariojpa = entityManager.find(UsuarioJPA.class, idUsuario);
+
+            usuariojpa.setImagen(imagen);
+
+            entityManager.merge(usuariojpa);
+            result.correct = true;
+
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+
+        return result;
+
+    }
+
+    @Override
+    @Transactional
+    public Result Delete(int idUsuario) {
+        Result result = new Result();
+        try {
+            UsuarioJPA usuariojpa = entityManager.find(UsuarioJPA.class, idUsuario);
+            entityManager.remove(usuariojpa);
+            result.correct = true;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        return result;
+    }
+
+    @Override
+    public Result GetAllDinamico(Usuario usuario) {
+        Result result = new Result();
+        try {
+            String query = "SELECT u FROM UsuarioJPA u WHERE ";
+            result.objects = new ArrayList<>();
+            
+            if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
+                    query += "LOWER(u.nombre) LIKE LOWER('%', :pNombreUsuario, '%')";
+            }
+
+            if (usuario.getApellidoPaterno() != null && !usuario.getApellidoPaterno().isEmpty()) {
+                query += " AND LOWER(u.apellidoPaterno) LIKE LOWER('%', :apellidoPaterno, '%')";
+            }
+
+            if (usuario.getApellidoMaterno() != null && !usuario.getApellidoMaterno().isEmpty()) {
+                query += " AND LOWER(u.apellidoMaterno) LIKE LOWER(CONCAT('%', :apellidoMaterno, '%'))";
+            }
+
+            if (usuario.Rol.getIdRol() > 0) {
+                query += " AND u.rol.idRol = :idRol";
+            }
+
+            TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery(query, UsuarioJPA.class);
+
+            queryUsuario.setParameter("pNombreUsuario", usuario.getNombre());
+            queryUsuario.setParameter("pApellidoPaterno", usuario.getApellidoPaterno());
+            queryUsuario.setParameter("pApellidoMaterno", usuario.getApellidoMaterno());
+            queryUsuario.setParameter("pIdRol", usuario.Rol.getIdRol());
+
+            List<UsuarioJPA> usuarios = queryUsuario.getResultList();
+
+            for (UsuarioJPA usuariojpa : usuarios) {
+                Usuario user = modelMapper.map(usuariojpa, Usuario.class);
+                if (user.Rol == null) {
+                    user.Rol = new Rol();
+                }
+                if (user.Direcciones == null || user.Direcciones.isEmpty()) {
+                    user.Direcciones = new ArrayList<>();
+                }
+                result.objects.add(user);
+            }
+
+            result.correct = true;
+
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+                result.ex = ex;
+        }
         return result;
     }
 

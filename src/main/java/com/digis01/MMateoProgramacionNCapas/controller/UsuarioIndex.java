@@ -2,6 +2,7 @@ package com.digis01.MMateoProgramacionNCapas.controller;
 
 import com.digis01.MMateoProgramacionNCapas.DAO.ColoniaDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.DireccionDAOImplementacion;
+import com.digis01.MMateoProgramacionNCapas.DAO.DireccionJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.EstadoDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.MunicipioDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.PaisDAOImplementacion;
@@ -84,35 +85,38 @@ public class UsuarioIndex {
 
     @Autowired
     private DireccionDAOImplementacion direccionDAOImplementacion;
-    
+
     @Autowired
     private UsuarioJPADAOImplementacion usuarioJPADAOImplementacion;
+    
+    @Autowired
+    private DireccionJPADAOImplementacion direccionJPADAOImplementacion;
 
     private final List<Usuario> usuariosCargaMasiva = new ArrayList<>();
 
     @GetMapping
     public String UsuarioIndex(Model model) {
-        Result result = usuarioDAOImplementation.GetAll();
+        //Result result = usuarioDAOImplementation.GetAll();
         Result roles = rolDAOImplementacion.getAll();
         Result resultJPA = usuarioJPADAOImplementacion.GetAll();
-        
+
         Usuario usuario = new Usuario();
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", roles.objects);
         model.addAttribute("usuarios", resultJPA.objects);
-        
+
         return "UsuarioIndex";
     }
 
     @GetMapping("usuario-detalles/{IdUsuario}")
     public String UsuarioDetalles(@PathVariable("IdUsuario") int idUsuario, Model model) {
-        Result result = usuarioDAOImplementation.GetUsuarioDireccionesById(idUsuario);
-        Usuario usuario = (Usuario) result.object;
+        //Result result = usuarioDAOImplementation.GetUsuarioDireccionesById(idUsuario);
+        Result result = usuarioJPADAOImplementacion.GetById(idUsuario);
+
         model.addAttribute("usuario", result.object);
         model.addAttribute("Direccion", new Direccion());
         model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
         model.addAttribute("paises", paisDAOImplementacion.GetAll().objects);
-
 
         return "UsuarioDetalles";
     }
@@ -419,7 +423,8 @@ public class UsuarioIndex {
     @PostMapping("update")
     public String Update(@ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes) {
 
-        Result result = usuarioDAOImplementation.Update(usuario);
+//        Result result = usuarioDAOImplementation.Update(usuario);
+        Result result = usuarioJPADAOImplementacion.Update(usuario);
         redirectAttributes.addFlashAttribute("msgUsuarioEditado", "El usuario " + usuario.getUserName() + " se edito con exito");
         return "redirect:/UsuarioIndex/usuario-detalles/" + usuario.getIdUsuario();
 
@@ -428,7 +433,7 @@ public class UsuarioIndex {
     @PostMapping
     public String UsuarioIndex(@ModelAttribute("usuario") Usuario usuario, Model model) {
 
-        Result result = usuarioDAOImplementation.GetAllDinamico(usuario);
+        Result result = usuarioJPADAOImplementacion.GetAllDinamico(usuario);
         model.addAttribute("usuarios", result.objects);
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
@@ -436,23 +441,12 @@ public class UsuarioIndex {
 
     }
 
-    @PostMapping("CargarArchivo")
-    public String CargarArchivo(@RequestParam("fileInput") MultipartFile file) {
-
-        try {
-            InputStream inputStream = new BufferedInputStream(file.getInputStream());
-
-        } catch (Exception e) {
-        }
-
-        return "vista";
-    }
-
     @PostMapping("addDireccion")
     public String AddDireccion(@ModelAttribute("Direccion") Direccion direccion, @ModelAttribute("usuario") Usuario usuario, RedirectAttributes redirectAttributes) {
 
         //Agregar lo de BindingResult
-        Result result = direccionDAOImplementacion.AddByIdUsario(direccion, usuario.getIdUsuario());
+        //Result result = direccionDAOImplementacion.AddByIdUsario(direccion, usuario.getIdUsuario());
+        Result result = direccionJPADAOImplementacion.AddByIdUsario(direccion, usuario.getIdUsuario());
 
         //RedirectCon mensaje
         redirectAttributes.addFlashAttribute("msgDireccionAgregada", "La direccion se agregó correctamente");
@@ -461,7 +455,8 @@ public class UsuarioIndex {
 
     @PostMapping("updateDireccion/{idUsuario}")
     public String UpdateDireccion(@ModelAttribute("Direccion") Direccion direccion, @PathVariable("idUsuario") int idUsuario, RedirectAttributes redirectAttributes) {
-        Result result = direccionDAOImplementacion.Update(direccion);
+        //Result result = direccionDAOImplementacion.Update(direccion);
+        Result result = direccionJPADAOImplementacion.Update(direccion);
 
         redirectAttributes.addFlashAttribute("msgDireccionEditada", "La direccion se editó correctamente");
         return "redirect:/UsuarioIndex/usuario-detalles/" + idUsuario;
@@ -487,7 +482,8 @@ public class UsuarioIndex {
 
         }
 
-        Result result = usuarioDAOImplementation.UpdateImage(idUsuario, imagen);
+        //Result result = usuarioDAOImplementation.UpdateImage(idUsuario, imagen);
+        Result result = usuarioJPADAOImplementacion.UpdateImagen(idUsuario, imagen);
 
         redirectAttributes.addFlashAttribute("msgImagenEditada", "La imagen se editó correctamente");
         return "redirect:/UsuarioIndex/usuario-detalles/" + idUsuario;
@@ -498,10 +494,20 @@ public class UsuarioIndex {
     public Result DeleteDireccion(@PathVariable("idDireccion") int idDireccion, @PathVariable("idUsuario") int idUsuario, RedirectAttributes redirectAttributes
     ) {
 
-        Result result = direccionDAOImplementacion.Delete(idDireccion);
+        //Result result = direccionDAOImplementacion.Delete(idDireccion);
+        Result result = direccionJPADAOImplementacion.Delete(idDireccion);
 
         return result;
 
+    }
+
+    @GetMapping("delete/{idUsuario}")
+    @ResponseBody
+    public Result Delete(@PathVariable("idUsuario") int idUsuario) {
+
+        Result result = usuarioJPADAOImplementacion.Delete(idUsuario);
+
+        return result;
     }
 
 //    @GetMapping("buscar")
