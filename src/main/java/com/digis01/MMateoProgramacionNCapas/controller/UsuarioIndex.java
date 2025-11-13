@@ -1,6 +1,7 @@
 package com.digis01.MMateoProgramacionNCapas.controller;
 
 import com.digis01.MMateoProgramacionNCapas.DAO.ColoniaDAOImplementacion;
+import com.digis01.MMateoProgramacionNCapas.DAO.ColoniaJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.DireccionDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.DireccionJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.EstadoDAOImplementacion;
@@ -103,6 +104,9 @@ public class UsuarioIndex {
     
     @Autowired
     private MunicipioJPADAOImplementacion municipioJPADAOImplementacion;
+    
+    @Autowired
+    private ColoniaJPADAOImplementacion coloniaJPADAOImplementacion;
 
     private final List<Usuario> usuariosCargaMasiva = new ArrayList<>();
 
@@ -367,7 +371,7 @@ public class UsuarioIndex {
     @GetMapping("Colonia/{idMunicipio}")
     @ResponseBody
     public Result ColoniasByIdMunicipio(@PathVariable(value = "idMunicipio") int idMunicipio) {
-        Result result = coloniaDAOImplementacion.GetByIdMunicipio(idMunicipio);
+        Result result = coloniaJPADAOImplementacion.GetByIdMunicipio(idMunicipio);
         
         return result;
     }
