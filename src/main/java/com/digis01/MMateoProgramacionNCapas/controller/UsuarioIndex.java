@@ -7,6 +7,7 @@ import com.digis01.MMateoProgramacionNCapas.DAO.EstadoDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.EstadoJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.MunicipioDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.PaisDAOImplementacion;
+import com.digis01.MMateoProgramacionNCapas.DAO.PaisJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.RolDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioDAOImplementation;
 import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioJPADAOImplementacion;
@@ -94,6 +95,9 @@ public class UsuarioIndex {
     private DireccionJPADAOImplementacion direccionJPADAOImplementacion;
 
     @Autowired
+    private PaisJPADAOImplementacion paisJPADAOImplementacion;
+    
+    @Autowired
     private EstadoJPADAOImplementacion estadoJPADAOImplementacion;
 
     private final List<Usuario> usuariosCargaMasiva = new ArrayList<>();
@@ -120,7 +124,7 @@ public class UsuarioIndex {
         model.addAttribute("usuario", result.object);
         model.addAttribute("Direccion", new Direccion());
         model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
-        model.addAttribute("paises", paisDAOImplementacion.GetAll().objects);
+        model.addAttribute("paises", paisJPADAOImplementacion.GetAll().objects);
 
         return "UsuarioDetalles";
     }
