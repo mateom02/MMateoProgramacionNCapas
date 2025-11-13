@@ -11,6 +11,7 @@ import com.digis01.MMateoProgramacionNCapas.DAO.MunicipioJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.PaisDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.PaisJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.RolDAOImplementacion;
+import com.digis01.MMateoProgramacionNCapas.DAO.RolJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioDAOImplementation;
 import com.digis01.MMateoProgramacionNCapas.DAO.UsuarioJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.ML.Colonia;
@@ -107,13 +108,16 @@ public class UsuarioIndex {
     
     @Autowired
     private ColoniaJPADAOImplementacion coloniaJPADAOImplementacion;
+    
+    @Autowired
+    private RolJPADAOImplementacion rolJPADAOImplementacion;
 
     private final List<Usuario> usuariosCargaMasiva = new ArrayList<>();
 
     @GetMapping
     public String UsuarioIndex(Model model) {
         //Result result = usuarioDAOImplementation.GetAll();
-        Result roles = rolDAOImplementacion.getAll();
+        Result roles = rolJPADAOImplementacion.GetAll();
         Result resultJPA = usuarioJPADAOImplementacion.GetAll();
 
         Usuario usuario = new Usuario();
@@ -131,7 +135,7 @@ public class UsuarioIndex {
 
         model.addAttribute("usuario", result.object);
         model.addAttribute("Direccion", new Direccion());
-        model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
+        model.addAttribute("roles", rolJPADAOImplementacion.GetAll().objects);
         model.addAttribute("paises", paisJPADAOImplementacion.GetAll().objects);
 
         return "UsuarioDetalles";
@@ -322,7 +326,7 @@ public class UsuarioIndex {
     @GetMapping("add")
     public String Add(Model model) {
 
-        model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
+        model.addAttribute("roles", rolJPADAOImplementacion.GetAll().objects);
         model.addAttribute("paises", paisDAOImplementacion.GetAll().objects);
         Usuario usuario = new Usuario();
 
@@ -397,7 +401,7 @@ public class UsuarioIndex {
         if (bindingResult.hasErrors()) {
 
             model.addAttribute("usuario", usuario);
-            model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
+            model.addAttribute("roles", rolJPADAOImplementacion.GetAll().objects);
             model.addAttribute("paises", paisDAOImplementacion.GetAll().objects);
             if (usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais() > 0) {
                 model.addAttribute("estados", estadoDAOImplementacion.EstadosByIdPais(usuario.Direcciones.get(0).Colonia.Municipio.Estado.Pais.getIdPais()).objects);
@@ -454,7 +458,7 @@ public class UsuarioIndex {
         Result result = usuarioJPADAOImplementacion.GetAllDinamico(usuario);
         model.addAttribute("usuarios", result.objects);
         model.addAttribute("usuario", usuario);
-        model.addAttribute("roles", rolDAOImplementacion.getAll().objects);
+        model.addAttribute("roles", rolJPADAOImplementacion.GetAll().objects);
         return "UsuarioIndex";
 
     }
