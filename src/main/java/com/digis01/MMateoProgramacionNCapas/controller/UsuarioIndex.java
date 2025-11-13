@@ -4,6 +4,7 @@ import com.digis01.MMateoProgramacionNCapas.DAO.ColoniaDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.DireccionDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.DireccionJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.EstadoDAOImplementacion;
+import com.digis01.MMateoProgramacionNCapas.DAO.EstadoJPADAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.MunicipioDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.PaisDAOImplementacion;
 import com.digis01.MMateoProgramacionNCapas.DAO.RolDAOImplementacion;
@@ -88,9 +89,12 @@ public class UsuarioIndex {
 
     @Autowired
     private UsuarioJPADAOImplementacion usuarioJPADAOImplementacion;
-    
+
     @Autowired
     private DireccionJPADAOImplementacion direccionJPADAOImplementacion;
+
+    @Autowired
+    private EstadoJPADAOImplementacion estadoJPADAOImplementacion;
 
     private final List<Usuario> usuariosCargaMasiva = new ArrayList<>();
 
@@ -339,7 +343,8 @@ public class UsuarioIndex {
     public Result EstadosByIdPais(
             @PathVariable(value = "idPais", required = true) int idPais) {
 
-        Result result = estadoDAOImplementacion.EstadosByIdPais(idPais);
+        //Result result = estadoDAOImplementacion.EstadosByIdPais(idPais);
+        Result result = estadoJPADAOImplementacion.GetByIdPais(idPais);
 
         return result;
     }
