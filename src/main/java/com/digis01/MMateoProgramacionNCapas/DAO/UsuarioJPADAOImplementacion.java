@@ -178,29 +178,22 @@ public class UsuarioJPADAOImplementacion implements IUsuarioJPA {
         try {
             String query = "SELECT u FROM UsuarioJPA u WHERE ";
             result.objects = new ArrayList<>();
-            
-            if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
-                    query += "LOWER(u.nombre) LIKE LOWER('%', :pNombreUsuario, '%')";
-            }
 
-            if (usuario.getApellidoPaterno() != null && !usuario.getApellidoPaterno().isEmpty()) {
-                query += " AND LOWER(u.apellidoPaterno) LIKE LOWER('%', :apellidoPaterno, '%')";
-            }
-
-            if (usuario.getApellidoMaterno() != null && !usuario.getApellidoMaterno().isEmpty()) {
-                query += " AND LOWER(u.apellidoMaterno) LIKE LOWER(CONCAT('%', :apellidoMaterno, '%'))";
-            }
+            query += "LOWER(u.Nombre) LIKE  '%' || :nombre || '%' AND LOWER(u.ApellidoPaterno) LIKE '%' || :pApellidoPaterno || '%' AND LOWER(u.ApellidoMaterno) LIKE '%' || :pApellidoMaterno|| '%'";
 
             if (usuario.Rol.getIdRol() > 0) {
-                query += " AND u.rol.idRol = :idRol";
+                query += " AND u.Rol.IdRol = :pIdRol";
             }
 
             TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery(query, UsuarioJPA.class);
 
-            queryUsuario.setParameter("pNombreUsuario", usuario.getNombre());
-            queryUsuario.setParameter("pApellidoPaterno", usuario.getApellidoPaterno());
-            queryUsuario.setParameter("pApellidoMaterno", usuario.getApellidoMaterno());
-            queryUsuario.setParameter("pIdRol", usuario.Rol.getIdRol());
+            queryUsuario.setParameter("nombre", usuario.getNombre().toLowerCase());
+            queryUsuario.setParameter("pApellidoPaterno", usuario.getApellidoPaterno().toLowerCase());
+            queryUsuario.setParameter("pApellidoMaterno", usuario.getApellidoMaterno().toLowerCase());
+
+            if (usuario.Rol.getIdRol() > 0) {
+                queryUsuario.setParameter("pIdRol", usuario.Rol.getIdRol());
+            }
 
             List<UsuarioJPA> usuarios = queryUsuario.getResultList();
 
@@ -220,7 +213,7 @@ public class UsuarioJPADAOImplementacion implements IUsuarioJPA {
         } catch (Exception ex) {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
-                result.ex = ex;
+            result.ex = ex;
         }
         return result;
     }
