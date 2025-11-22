@@ -33,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -99,16 +100,16 @@ public class UsuarioIndex {
 
     @Autowired
     private PaisJPADAOImplementacion paisJPADAOImplementacion;
-    
+
     @Autowired
     private EstadoJPADAOImplementacion estadoJPADAOImplementacion;
-    
+
     @Autowired
     private MunicipioJPADAOImplementacion municipioJPADAOImplementacion;
-    
+
     @Autowired
     private ColoniaJPADAOImplementacion coloniaJPADAOImplementacion;
-    
+
     @Autowired
     private RolJPADAOImplementacion rolJPADAOImplementacion;
 
@@ -193,7 +194,7 @@ public class UsuarioIndex {
     }
 
     @GetMapping("CargaMasiva/procesar")
-    public String CargaUsuarios(HttpSession session) {
+    public String CargaUsuarios(HttpSession session, RedirectAttributes redirectAttributes) {
 
         System.out.println("Mensaje");
 
@@ -215,16 +216,22 @@ public class UsuarioIndex {
             //Mensaje de error
         }
 
-        Result result = usuarioDAOImplementation.SaveAll(usuariosCargaMasiva);
+        try {
+            Result result = usuarioJPADAOImplementacion.SaveAll(usuarios);
+            redirectAttributes.addFlashAttribute("msgCargaCorrecta", "Los datos se guardaron correctamente");
+            return "redirect:CargaMasiva";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("msgCargaError", "Error al guardar los datos intente nuevamente");
+            return "redirect:CargaMasiva";
+        }
 
-        return "CargaMasiva";
     }
 
     public List<Usuario> LecturaArchivoTXT(String path) {
 
         List<Usuario> usuarios = new ArrayList<>();
 
-        try (InputStream inputStream = new FileInputStream(path); BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));) {
+        try (InputStream inputStream = new FileInputStream(path); BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));) {
 
             String linea = "";
 
@@ -376,7 +383,7 @@ public class UsuarioIndex {
     @ResponseBody
     public Result ColoniasByIdMunicipio(@PathVariable(value = "idMunicipio") int idMunicipio) {
         Result result = coloniaJPADAOImplementacion.GetByIdMunicipio(idMunicipio);
-        
+
         return result;
     }
 
@@ -431,8 +438,7 @@ public class UsuarioIndex {
 
             } catch (IOException ex) {
 
-                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
-
+                //Logger.getLogger(Usua.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -499,7 +505,7 @@ public class UsuarioIndex {
                     imagen = imagenBase64;
                 }
             } catch (IOException ex) {
-                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(UsuarioController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

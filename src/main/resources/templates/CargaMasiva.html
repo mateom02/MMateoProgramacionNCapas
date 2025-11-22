@@ -24,7 +24,7 @@
                 </form>
             </div>
         </div>
-        
+
         <div th:if="${correcto}">
             <p class="text-succes">Los datos de tu archivo son validos!</p>
             <a class="btn btn-success" th:href="@{/UsuarioIndex/CargaMasiva/procesar}">Procesar</a>
@@ -46,7 +46,7 @@
                         <td th:text="${errores.campo}"></td>
                         <td th:text="${errores.descripcion}"></td>
                     </tr>
-        
+
                 </tbody>
             </table>
         </div>
@@ -87,8 +87,21 @@
                     }
                 }
             });
-
-
+        </script>
+        <script th:if="${msgCargaCorrecta}" th:inline="javascript">
+            Swal.fire({
+                title: [[${msgCargaCorrecta}]],
+                icon: "success",
+                draggable: true
+            });
+        </script>
+        
+        <script th:if="${msgCargaError}" th:inline="javascript">
+            Swal.fire({
+                title: [[${msgCargaError}]],
+                icon: "error",
+                draggable: true
+            });
         </script>
     </body>
 </html>

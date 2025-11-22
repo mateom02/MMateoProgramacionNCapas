@@ -7,6 +7,7 @@ import com.digis01.MMateoProgramacionNCapas.ML.Result;
 import com.digis01.MMateoProgramacionNCapas.ML.Rol;
 import com.digis01.MMateoProgramacionNCapas.ML.Usuario;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
@@ -16,6 +17,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
@@ -214,6 +216,31 @@ public class UsuarioJPADAOImplementacion implements IUsuarioJPA {
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.NESTED)
+    public Result SaveAll(List<Usuario> usuarios) {
+
+        Result result = new Result();
+//        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        try {
+            for (Usuario usuario : usuarios) {
+                //Convertir  ML a JPA
+//                entityTransaction.begin();
+                UsuarioJPA usuariojpa = modelMapper.map(usuario, UsuarioJPA.class);
+                entityManager.persist(usuariojpa);
+//                entityTransaction.commit();
+            }
+            result.correct = true;
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+//            entityTransaction.rollback();
         }
         return result;
     }

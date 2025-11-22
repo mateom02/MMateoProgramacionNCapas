@@ -3,6 +3,7 @@ package com.digis01.MMateoProgramacionNCapas.DAO;
 
 import com.digis01.MMateoProgramacionNCapas.ML.Result;
 import com.digis01.MMateoProgramacionNCapas.ML.Usuario;
+import java.util.List;
 
 public interface IUsuarioJPA {
     Result GetAll();
@@ -12,4 +13,5 @@ public interface IUsuarioJPA {
     Result GetAllDinamico(Usuario usuario);
     Result GetById(int idUsuario);
     Result Delete(int idUsuario);
+    Result SaveAll(List<Usuario> usuarios);
 }

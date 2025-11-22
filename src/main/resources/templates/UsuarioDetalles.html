@@ -124,8 +124,9 @@
             </div>
 
 
-            <!-- Esto es para actualizar usuario -->
+            <!-- Esto es para actualizar imagen de usuario -->
             <div class="container border border-dark rounded-5">
+                
                 <!-- Modal para cargar imagen -->
                 <div class="modal" id="modalActualizarImagen">
                     <form id="formEditImagen" th:action="@{/UsuarioIndex/updateImage/{idUsuario}(idUsuario=${usuario.IdUsuario})}" method="POST" enctype="multipart/form-data">
@@ -136,29 +137,31 @@
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
+                
+               <!-- Actualizar usuario -->
                 <div class="modal fade" id="modalFormulario" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
+                                <h4 class="modal-title">Actualizar usuario</h4>
                             </div>
-                            <form  th:action="@{/UsuarioIndex/update}" id="formUpdateUser" th:object="${usuario}" method="POST" >
-                                <input type="hidden" th:field="*{IdUsuario}">
+                            <form  id="formUpdateUser" th:object="${usuario}" >
+                                <input type="hidden" id="idUsuario" th:field="*{IdUsuario}">
                                 <label>Nombre</label>
-                                <input type="text"  th:value="${usuario.Nombre}" name="Nombre" th:field="*{Nombre}" >
+                                <input type="text"  th:value="${usuario.Nombre}"  id="nombre" th:field="*{Nombre}" >
                                 <label>Apellido Paterno</label>
-                                <input type="text" th:value="${usuario.ApellidoPaterno}" name="ApellidoPaterno" th:field="*{ApellidoPaterno}" >
+                                <input type="text" th:value="${usuario.ApellidoPaterno}"  id="apellidoPaterno" th:field="*{ApellidoPaterno}" >
                                 <label>Apellido Materno</label>
-                                <input type="text" th:value="${usuario.ApellidoMaterno}" name="ApellidoMaterno" th:field="*{ApellidoMaterno}" >
+                                <input type="text" th:value="${usuario.ApellidoMaterno}"  id="apellidoMaterno" name="ApellidoMaterno" th:field="*{ApellidoMaterno}" >
                                 <label>User Name</label>
-                                <input type="text" th:value="${usuario.UserName}" name="UserName" th:field="*{UserName}">
+                                <input type="text" th:value="${usuario.UserName}" id="userName" th:field="*{UserName}">
                                 <label>CURP</label>
-                                <input type="text" th:value="${usuario.Curp}" name="Curp" th:field="*{Curp}" >
+                                <input type="text" th:value="${usuario.Curp}" id="curp" th:field="*{Curp}" >
 
                                 <label>Rol</label>
-                                <select  id="rol" class="form-control" th:value="${usuario.Rol.IdRol}" th:field="*{Rol.IdRol}" name="IdRol">
+                                <select  id="rol" class="form-control" th:value="${usuario.Rol.IdRol}" th:field="*{Rol.IdRol}">
                                     <option value="0" selected >Seleccione un rol</option>
                                     <option th:each="rol : ${roles}"
                                             th:value="${rol.IdRol}"
@@ -166,13 +169,13 @@
                                     </option>
                                 </select>
                                 <label>Email</label>
-                                <input type="text"  name="Email"  th:field="*{Email}"/>
+                                <input type="text"  id="email" th:field="*{Email}"/>
                                 <label >Celular</label>
-                                <input type="text"  name="Celular"  th:field="*{Celular}"/>
+                                <input type="text"  id="celular"  th:field="*{Celular}"/>
                                 <label >Telefono</label>
-                                <input type="text" name="Telefono"  th:field="*{Telefono}"/>
+                                <input type="text"  id="telefono"  th:field="*{Telefono}"/>
                                 <label >Fecha de Nacimiento</label>
-                                <input type="date"  name="FechaNacimiento" th:field="*{FechaNacimiento}"/>
+                                <input type="date"  id="fechaNacimiento" th:field="*{FechaNacimiento}"/>
                                 <p th:text="${usuario.Sexo == 'M '}"></p>
                                 <input type="radio" id='inputM'  th:field="*{Sexo}" value="M " ><label for="inputM">Masculino</label>
                                 <input type="radio"  id='inputF' th:field="*{Sexo}" value="F " ><label for="inputF">Femenino</label>
@@ -264,10 +267,6 @@
                         </div>
                     </div>
                 </div> 
-
-
-
-
 
 
                 <div class="modal fade"  id="modalEditDireccion">

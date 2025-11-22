@@ -1,0 +1,2 @@
+jramirez|José|Ramírez|Gómez|jramirez@example.com|Kdf82kLs90ss|14-03-1988|M|5512345678|5512345679|RAGJ880314HDFMMZP2|3
+mlopez|María|López|Hernández|mlopez@example.com|S8dfk29Dfss2|22-07-1992|F|5587654321|5587654322|LOHM920722MDFHRRA1|1

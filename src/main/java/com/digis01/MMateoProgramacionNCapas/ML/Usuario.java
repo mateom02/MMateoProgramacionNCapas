@@ -29,21 +29,21 @@ public class Usuario {
     @NotEmpty(message = "El campo no puede estar vacio ")
     @NotBlank(message = "El campo debe contener solo letras")
     @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
-    @Pattern(regexp = "^[A-Za-zñÑáéíóúÁÉÍÓÚ]+ ?[A-Za-zñÑáéíóúÁÉÍÓÚ]+$", message = "No se permite caracteres especiales, solo letras")
+    @Pattern(regexp = "^[A-Za-zñáéíóúÁÉÍÓÚ]+(\\s[A-Za-zñáéíóúÁÉÍÓÚ]+)*$", message = "No se permite caracteres especiales, solo letras")
     private String Nombre;
 
     @NotNull(message = "El campo no puede ser nulo")
     @NotEmpty(message = "El campo no puede estar vacio ")
     @NotBlank(message = "El campo debe contener solo letras")
     @Size(min = 2, max = 50, message = "El apellido paterno debe tener entre 2 y 50 caracteres")
-    @Pattern(regexp = "^[A-Za-zñÑáéíóúÁÉÍÓÚ]+ ?[A-Za-zñÑáéíóúÁÉÍÓÚ]+$", message = "No se permite caracteres especiales, solo letras")
+    @Pattern(regexp = "^[A-Za-zñáéíóúÁÉÍÓÚ]+(\\s[A-Za-zñáéíóúÁÉÍÓÚ]+)*$", message = "No se permite caracteres especiales, solo letras")
     private String ApellidoPaterno;
 
     @NotNull(message = "El campo no puede ser nulo")
     @NotEmpty(message = "El campo no puede estar vacio ")
     @NotBlank(message = "El campo debe contener solo letras")//repetitivo?
     @Size(min = 2, max = 50, message = "El apellido materno debe tener entre 2 y 50 caracteres")
-    @Pattern(regexp = "^[A-Za-zñÑáéíóúÁÉÍÓÚ]+ ?[A-Za-zñÑáéíóúÁÉÍÓÚ]+$", message = "No se permite caracteres especiales, solo letras")
+    @Pattern(regexp = "^[A-Za-zñáéíóúÁÉÍÓÚ]+(\\s[A-Za-zñáéíóúÁÉÍÓÚ]+)*$", message = "No se permite caracteres especiales, solo letras")
     private String ApellidoMaterno;
 
     @Email(message = "El email puede tener letras, numeros y _ con el sigueinte formato xxxx@xxxx.xxxx", regexp = "^[A-Za-zÑñ\\d_]+@[A-Za-zÑñ]+.[a-zA-ZÑñ]+$")
