@@ -36,7 +36,9 @@
                             <a class="nav-link nav-text"  aria-current="page" th:href="@{/UsuarioIndex}">Usuario</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-text" href="#">Login</a>
+                            <form th:action="@{/logout}" method="post">
+                                <input class="nav-link nav-text" type="submit" value="Cerrar Sesion"/>
+                            </form>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link  nav-text" href="#">Sing In</a>

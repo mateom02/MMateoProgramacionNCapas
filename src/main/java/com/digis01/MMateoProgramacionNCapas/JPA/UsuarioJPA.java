@@ -25,7 +25,7 @@ public class UsuarioJPA {
     private int IdUsuario;
 
     @Column(name = "username")
-    private String UserName;
+    private String userName;
 
     @Column(name = "nombre")
     private String Nombre;
@@ -69,11 +69,11 @@ public class UsuarioJPA {
     public List<DireccionJPA> Direcciones = new ArrayList<>();
 
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
-    public void setUserName(String UserName) {
-        this.UserName = UserName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getIdUsuario() {

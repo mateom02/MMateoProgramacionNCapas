@@ -126,7 +126,7 @@
 
             <!-- Esto es para actualizar imagen de usuario -->
             <div class="container border border-dark rounded-5">
-                
+
                 <!-- Modal para cargar imagen -->
                 <div class="modal" id="modalActualizarImagen">
                     <form id="formEditImagen" th:action="@{/UsuarioIndex/updateImage/{idUsuario}(idUsuario=${usuario.IdUsuario})}" method="POST" enctype="multipart/form-data">
@@ -137,8 +137,8 @@
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
-                
-               <!-- Actualizar usuario -->
+
+                <!-- Actualizar usuario -->
                 <div class="modal fade" id="modalFormulario" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
@@ -470,7 +470,7 @@
             }
             );
         </script>
-        
+
         <script th:if="${msgImagenEditada}" th:inline="javascript">
             Swal.fire({
             title: [[${msgImagenEditada}
